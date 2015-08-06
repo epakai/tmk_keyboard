@@ -1,15 +1,8 @@
-GH60 keyboard firmware
+Hand wired M0110 keyboard firmware
 ======================
-DIY compact keyboard designed and run by komar007 and Geekhack community.
 
-- Both Rev.A and Rev.B PCB are supported by one firmware binary(issue #64)
-
-## GH60 Resources
-- [KOMAR's project page](http://blog.komar.be/projects/gh60-programmable-keyboard/)
-- [Prototyping](http://geekhack.org/index.php?topic=34959.0)
-- [Rev.A PCB test](http://geekhack.org/index.php?topic=37570.0)
-- [Rev.B PCB test](http://geekhack.org/index.php?topic=50685.0)
-- [Group buy](http://geekhack.org/index.php?topic=41464.0)
+Code copied from gh60 directory and modified with directions from matt3o
+http://deskthority.net/workshop-f7/how-to-build-your-very-own-keyboard-firmware-t7177.html
 
 
 ## Build
@@ -21,121 +14,72 @@ Use `make -f Makefile.pjrc` if you want to use PJRC stack but I find no reason t
 
 
 ## Keymap
-Several version of keymap are available in advance but you are recommended to define your favorite layout yourself. To define your own keymap create file named `keymap_<name>.c` and see keymap document(you can find in top README.md) and existent keymap files.
 
-To build firmware binary hex file with a certain keymap just do `make` with `KEYMAP` option like:
+Keymap has 5 layers.
+Default (0) {fn* key + \} 		qwerty layout.
+(1) {fn* key + tab} 			hardware dvorak
+(2)	{fn* key + backspace} 		qwerty on soft dvorak (for apps/games with fixed layout)
+(3) {fn0} (left option key) 	Momentary layer with cut-copy-paste in qwerty locations (via fn0), function keys and other extra keys
+(4) {fn1} (right option key} 	Momentary layer with function keys and mouse buttons
 
-    $ make KEYMAP=[poker|poker_set|poker_bit|plain|hasu|spacefn|hhkb|<name>]
-
-
-### 1  Poker
-[keymap_poker.c](keymap_poker.c) emulates original Poker layers
-while both [keymap_poker_bit.c](keymap_poker_bit.c) and [keymap_poker_set.c](keymap_poker_set.c) implements same layout in different way and they fix a minor issue of original Poker and enhance arrow keys.
-
-    Fn + Esc = `
-    Fn + {left, down, up, right}  = {home, pgdown, pgup, end}
-
-#### 1.0 Default layer
+#### 0 Qwerty (for software dvorak)
     ,-----------------------------------------------------------.
     |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp |
     |-----------------------------------------------------------|
     |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|    \|
     |-----------------------------------------------------------|
-    |Caps  |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
+    |Ctrl  |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
     |-----------------------------------------------------------|
     |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift     |
     |-----------------------------------------------------------|
-    |Ctrl|Gui |Alt |      Space             |Fn  |Gui |App |Ctrl|
+    |     FN0 |Alt |      Space             |Alt |FN1           |
     `-----------------------------------------------------------'
-#### 1.1 Poker Fn layer
+#### 1 Hard Dvorak
     ,-----------------------------------------------------------.
-    |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|       |
+    |  `|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp |
     |-----------------------------------------------------------|
-    |     |FnQ| Up|   |   |   |   |   |   |Cal|   |Hom|Ins|     |
+    |Tab  |  "|  <|  >|  P|  Y|  F|  G|  C|  R|  L|  /|  =|    \|
     |-----------------------------------------------------------|
-    |      |Lef|Dow|Rig|   |   |Psc|Slk|Pau|   |Tsk|End|        |
+    |Ctrl  |  A|  O|  E|  U|  I|  D|  H|  T|  N|  S|  -|Return  |
     |-----------------------------------------------------------|
-    |        |Del|   |Web|Mut|VoU|VoD|   |PgU|PgD|Del|   Up     |
+    |Shift   |  ;|  Q|  J|  K|  X|  B|  M|  W|  V|  Z|Shift     |
     |-----------------------------------------------------------|
-    |    |    |    |         FnS            |Fn  |Left|Down|Righ|
+    |     FN0 |Alt |      Space             |Alt |FN1           |
     `-----------------------------------------------------------'
-
-
-### 2. Plain
-Without any Fn layer this will be useful if you want to use key remapping tool like AHK on host.
-See [keymap_plain.c](keymap_plain.c) for detail.
-
-#### 1.0 Plain Default layer
+#### 2 Qwerty on soft Dvorak
     ,-----------------------------------------------------------.
-    |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp |
+    |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  '|  ]|Backsp |
     |-----------------------------------------------------------|
-    |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|    \|
+    |Tab  |  X|  ,|  D|  O|  K|  T|  F|  G|  S|  R|  -|  =|    \|
     |-----------------------------------------------------------|
-    |Caps  |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
+    |Ctrl  |  A|  ;|  H|  Y|  U|  J|  C|  V|  P|  Z|  Q|Return  |
     |-----------------------------------------------------------|
-    |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift     |
+    |Shift   |  /|  B|  I|  .|  N|  L|  M|  W|  E|  ]|Shift     |
     |-----------------------------------------------------------|
-    |Ctrl|Gui |Alt |      Space             |Alt |Gui |App |Ctrl|
+    |     FN0 |Alt |      Space             |Alt |FN1           |
     `-----------------------------------------------------------'
-
-
-### 3. Hasu
-This is my favorite keymap with HHKB Fn, Vi cursor and Mousekey layer. See [keymap_hasu.c](keymap_hasu.c) for detail.
-
-
-### 4. SpaceFN
-This layout proposed by spiceBar uses space bar to change layer with using Dual role key technique. See [keymap_spacefn.c](keymap_spacefn.c) and [SpaceFN discussion](http://geekhack.org/index.php?topic=51069.0).
-
-#### 4.0 Default layer
+#### 3 Function and extra keys (via FN0)
     ,-----------------------------------------------------------.
-    |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp |
+    |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|     L2|
     |-----------------------------------------------------------|
-    |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|    \|
+    |L1   |   |   |PSR|SCL|PAS|   |INS|HOM|PGU|   |   |   |   L0|
     |-----------------------------------------------------------|
-    |Caps  |  A|  S|  D|  F|  G|  H|  J|  K|  L|  ;|  '|Return  |
+    |Ctrl  |   |PRV|PLY|NXT|   |   |DEL|END|PGD|   |   |Return  |
     |-----------------------------------------------------------|
-    |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift     |
+    |Shift   |   |CUT|CPY|PST|   |   |   |   |   |   |Shift     |
     |-----------------------------------------------------------|
-    |Ctrl|Gui |Alt |      Space/Fn          |Alt |Gui |App |Ctrl|
+    |     FN0 |Alt |                        |Alt |FN1           |
     `-----------------------------------------------------------'
-#### 4.1 SpaceFN layer
+#### 4 Mouse keys and function keys (via FN1)
     ,-----------------------------------------------------------.
-    |`  | F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Delete |
+    |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|     L2|
     |-----------------------------------------------------------|
-    |     |   |   |   |   |   |   |Hom|Up |End|Psc|Slk|Pau|Ins  |
+    |L1   |   |   |mup|   |   |   |   |   |   |   |   |   |   L0|
     |-----------------------------------------------------------|
-    |      |   |   |   |   |   |PgU|Lef|Dow|Rig|   |   |        |
+    |Ctrl  |   | ml| md| mr|   |   |M1 |M3 |M2 |   |   |Return  |
     |-----------------------------------------------------------|
-    |        |   |   |   |   |Spc|PgD|`  |~  |   |   |          |
+    |Shift   |   | wd| wu|   |   |   |   |   |   |   |Shift     |
     |-----------------------------------------------------------|
-    |    |    |    |            Fn          |    |    |    |    |
-    `-----------------------------------------------------------'
-
-
-### 5. HHKB
-[keymap_hhkb.c](keymap_hhkb.c) emulates original HHKB layers.
-#### 5.0: Default layer
-    ,-----------------------------------------------------------.
-    |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|  \|  `|
-    |-----------------------------------------------------------|
-    |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|Bspc |
-    |-----------------------------------------------------------|
-    |Ctrl  |  A|  S|  D|  F|  G|  H|  J|  K|  L|Fn3|  '|Return  |
-    |-----------------------------------------------------------|
-    |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|  /|Shift |Fn |
-    |-----------------------------------------------------------|
-    |    |Gui |Alt |      Space             |    |Alt |Gui |    |
-    `-----------------------------------------------------------'
-#### 5.1: HHKB Fn layer
-    ,-----------------------------------------------------------.
-    |Pwr| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|Ins|Del|
-    |-----------------------------------------------------------|
-    |Caps |   |   |   |   |   |   |   |Psc|Slk|Pus|Up |   |     |
-    |-----------------------------------------------------------|
-    |      |VoD|VoU|Mut|Ejc|   |  *|  /|Hom|PgU|Lef|Rig|Enter   |
-    |-----------------------------------------------------------|
-    |        |   |   |   |   |   |  +|  -|End|PgD|Dow|      |   |
-    |-----------------------------------------------------------|
-    |    |    |    |                        |    |    |    |    |
+    |     FN0 |Alt |                        |Alt |FN1           |
     `-----------------------------------------------------------'
 
