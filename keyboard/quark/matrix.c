@@ -135,14 +135,14 @@ uint8_t matrix_key_count(void)
 }
 
 /* Column pin configuration
- * col: 0   1   2   3   4   5   6   7   8   9   10  11  12  13
- * pin: B1  B2  B3  B7  D0  D1  D2  D3  C7  D7  B4  B5  B6  F7
+ * col: 0   1   2   3   4   5   6   7   8   9   10  11
+ * pin: B0  B1  B2  B3  B7  D0  D1  D2  D3  C6  C7  D5
  */
 static void  init_cols(void)
 {
     // Input with pull-up(DDR:0, PORT:1)
-    DDRB  &= ~(1<<7 | 1<<3 | 1<<2 | 1<<1 | 0<<0 );
-    PORTB |=  (1<<7 | 1<<3 | 1<<2 | 1<<1 | 0<<0 );
+    DDRB  &= ~(1<<7 | 1<<3 | 1<<2 | 1<<1 | 1<<0 );
+    PORTB |=  (1<<7 | 1<<3 | 1<<2 | 1<<1 | 1<<0 );
     DDRD  &= ~(1<<5 | 1<<3 | 1<<2 | 1<<1 | 1<<0 );
     PORTD |=  (1<<5 | 1<<3 | 1<<2 | 1<<1 | 1<<0 );
     DDRC  &= ~(1<<7 | 1<<6 );
