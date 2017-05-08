@@ -43,6 +43,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 	return MACRO_NONE;
 }
 
+// hold B + spacebar to enter programming mode
+
 const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	/* 0: qwerty (default based on host using software dvorak layout) */
 	/* http://www.keyboard-layout-editor.com/#/layouts/68fc065cd4cab657b2dff0ea6517d06e */
@@ -58,7 +60,7 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 			GRV, 1,   2,   3,   4,   5,   6,   7,   8,   9,   0,   LBRC,RBRC,BSPC, \
 			TAB, QUOT,COMM,DOT, P,   Y,   F,   G,   C,   R,   L,   SLSH,EQL, BSLS, \
 			LCTL,A,   O,   E,   U,   I,   D,   H,   T,   N,   S,   MINS,     ENT,  \
-			LSFT,SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,             RSFT, \
+			LSFT,     SCLN,Q,   J,   K,   X,   B,   M,   W,   V,   Z,        RSFT, \
 			FN0, LALT,          SPC,                     RALT, FN1),
 	/* 2: Qwerty on software dvorak. Allows game play on unremappable games without
 	   changing any software settings. */
@@ -75,16 +77,16 @@ const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	KEYMAP(
 			ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,    F8,  F9,  F10, F11, F12, FN4, \
 			FN2, NO,  PSCR,SLCK,PAUS,NO,  NO,  INS,   HOME,PGUP,NO,  NO,  NO,  FN3, \
-			TRNS,NO,  MPRV,MPLY,MNXT,NO,  NO,  DELETE,END,PGDN,NO,  NO,        NO,   \
+			TRNS,CAPS,MPRV,MPLY,MNXT,NO,  NO,  DELETE,END,PGDN,NO,  NO,        NO,   \
 			TRNS,NO,  FN5 ,FN6 ,FN7 ,NO,  NO,  NO,  NO,  NO,  NO,            TRNS, \
 			TRNS,TRNS,          NO,                      TRNS,TRNS),
 	/* 4: Function keys + mouse keys */
 	/* http://www.keyboard-layout-editor.com/#/layouts/f5299cb5d5b4b07b124400796e8c9272 */
 	KEYMAP(
 			ESC, F1,  F2,  F3,  F4,  F5,  F6,  F7,  F8,  F9,  F10, F11, F12, FN4, \
-			FN2 ,NO,  NO,  MS_U,NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  NO,  FN3,  \
-			TRNS,NO,  MS_L,MS_D,MS_R,NO,  NO,  BTN1,BTN3,BTN2,NO,  NO,       NO,   \
-			TRNS,NO,  NO,  WH_D,WH_U,NO,  NO,  NO,  NO,  NO,  NO,            TRNS, \
+			FN2 ,NO,  NO,  MS_U,NO,  NO,  NO,  NO,  UP,  NO,  NO,  NO,  NO,  FN3,  \
+			TRNS,NO,  MS_L,MS_D,MS_R,NO,  NO,  LEFT,DOWN,RGHT,NO,  NO,       NO,   \
+			TRNS,NO,  NO,  WH_D,WH_U,NO,  NO,  BTN1,BTN3,BTN2,  NO,            TRNS, \
 			TRNS,TRNS,          NO,                      TRNS,TRNS),
 };
 const uint16_t PROGMEM fn_actions[] = {
@@ -92,9 +94,9 @@ const uint16_t PROGMEM fn_actions[] = {
 	/*  FN KEY                      LAYER */
 	[0] = ACTION_LAYER_MOMENTARY(3),  // FN + Clusters
 	[1] = ACTION_LAYER_MOMENTARY(4),  // FN + Mouse Keys
-	[3] = ACTION_DEFAULT_LAYER_SET(0),  // qwerty (FN* KEY + \)
-	[2] = ACTION_DEFAULT_LAYER_SET(1),  // (hardware) dvorak (FN* KEY + TAB)
-	[4] = ACTION_DEFAULT_LAYER_SET(2),  // Inverted qwerty (FN* KEY + Backspace)
+	[3] = ACTION_DEFAULT_LAYER_SET(0),  // qwerty (FN0/1 KEY + \)
+	[2] = ACTION_DEFAULT_LAYER_SET(1),  // (hardware) dvorak (FN0/1 KEY + TAB)
+	[4] = ACTION_DEFAULT_LAYER_SET(2),  // Inverted qwerty (FN0/1 KEY + Backspace)
 	// cut/copy/paste for software defined dvorak
 	[5] = ACTION_MACRO(CUT), 
 	[6] = ACTION_MACRO(COPY),
